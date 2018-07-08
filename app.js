@@ -66,7 +66,7 @@ app.get("/blogs/:id", function(req, res){
         else {
             res.render("show", {blog: foundBlog});
         }
-    })
+    });
 });
 
 app.get("/blogs/:id/edit", function(req, res){
@@ -78,7 +78,7 @@ app.get("/blogs/:id/edit", function(req, res){
         else {
             res.render("edit", {blog: foundBlog});
         }
-    })
+    });
 });
 
 app.put("/blogs/:id", function(req, res){
@@ -87,10 +87,21 @@ app.put("/blogs/:id", function(req, res){
             res.redirect("/blogs");
         }
         else {
-            res.redirect("/");
+            res.redirect("/blogs/"+ req.params.id);
         }
-    })
+    });
 });
+
+app.delete("/blogs/:id", function(req, res){
+    Blog.findByIdAndRemove(req.params.id, function(err){
+        if (err){
+            res.redirect("/blogs");
+        }
+        else {
+            res.redirect("/blogs");
+        }
+    });
+})
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server is running");
